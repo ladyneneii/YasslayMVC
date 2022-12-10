@@ -86,16 +86,23 @@ namespace YasslayMVC.Controllers
         // POST: UsersController/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, IFormCollection collection)
+        public ActionResult Edit(UsersModel usersModel)
         {
-            try
+            using (SqlConnection sqlCon = new SqlConnection(connectionString))
             {
-                return RedirectToAction(nameof(Index));
+                sqlCon.Open();
+                string query = "UPDATE UsersTable SET FirstName = @FirstName, LastName = @LastName, Email = @Email, Password = @Password, UserType = @UserType, State = @State WHERE UserID = @UserID";
+                SqlCommand sqlCmd = new SqlCommand(query, sqlCon);
+                sqlCmd.Parameters.AddWithValue("@UserID", usersModel.UserID);
+                sqlCmd.Parameters.AddWithValue("@FirstName", usersModel.FirstName);
+                sqlCmd.Parameters.AddWithValue("@LastName", usersModel.LastName);
+                sqlCmd.Parameters.AddWithValue("@Email", usersModel.Email);
+                sqlCmd.Parameters.AddWithValue("@Password", usersModel.Password);
+                sqlCmd.Parameters.AddWithValue("@UserType", usersModel.UserType);
+                sqlCmd.Parameters.AddWithValue("@State", usersModel.State);
+                sqlCmd.ExecuteNonQuery();
             }
-            catch
-            {
-                return View();
-            }
+            return RedirectToAction("Index");
         }
 
         // GET: UsersController/Delete/5
