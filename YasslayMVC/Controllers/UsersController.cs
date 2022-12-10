@@ -54,7 +54,33 @@ namespace YasslayMVC.Controllers
         // GET: UsersController/Edit/5
         public ActionResult Edit(int id)
         {
-            return View();
+            UsersModel usersModel = new UsersModel();
+            DataTable dtblUser = new DataTable();
+            using (SqlConnection sqlCon = new SqlConnection(connectionString))
+            {
+                sqlCon.Open();
+                string query = "SELECT * FROM UsersTable WHERE UserID = @UserID";
+                SqlDataAdapter sqlDa = new SqlDataAdapter(query,sqlCon);
+                sqlDa.SelectCommand.Parameters.AddWithValue("@UserID", id);
+                sqlDa.Fill(dtblUser);
+            }
+            if (dtblUser.Rows.Count == 1)
+            {
+                usersModel.UserID = Convert.ToInt32(dtblUser.Rows[0][0].ToString());
+                usersModel.FirstName = dtblUser.Rows[0][1].ToString();
+                usersModel.LastName = dtblUser.Rows[0][2].ToString();
+                usersModel.Email = dtblUser.Rows[0][3].ToString();
+                usersModel.Password = dtblUser.Rows[0][4].ToString();
+                usersModel.UserType = dtblUser.Rows[0][5].ToString();
+                usersModel.State = dtblUser.Rows[0][6].ToString();
+                return View(usersModel);
+            }
+            else
+            {
+                return RedirectToAction("Index");
+            }
+
+          
         }
 
         // POST: UsersController/Edit/5
