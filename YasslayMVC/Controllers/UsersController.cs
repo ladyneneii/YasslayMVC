@@ -108,22 +108,16 @@ namespace YasslayMVC.Controllers
         // GET: UsersController/Delete/5
         public ActionResult Delete(int id)
         {
-            return View();
-        }
+            using (SqlConnection sqlCon = new SqlConnection(connectionString))
+            {
+                sqlCon.Open();
+                string query = "DELETE FROM UsersTable WHERE UserID = @UserID";
+                SqlCommand sqlCmd = new SqlCommand(query, sqlCon);
+                sqlCmd.Parameters.AddWithValue("@UserID", id);
+                sqlCmd.ExecuteNonQuery();
+            }
 
-        // POST: UsersController/Delete/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id, IFormCollection collection)
-        {
-            try
-            {
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
+            return RedirectToAction("Index");
         }
     }
 }
