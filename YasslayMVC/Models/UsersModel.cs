@@ -1,8 +1,11 @@
-﻿namespace YasslayMVC.Models
+﻿using System.ComponentModel;
+
+namespace YasslayMVC.Models
 {
     public class UsersModel
     {
-        public int UserID { get; set; } 
+        public int UserID { get; set; }
+        [DisplayName("User Name")]
         public string FirstName { get; set; } = default!;
         public string LastName { get; set; } = default!;
         public string Email { get; set; } = default!;
