@@ -14,6 +14,7 @@
         <th>Password</th>
         <th>UserType</th>
         <th>State</th>
+        <th></th>
     </tr>
     @for (var i = 0; i < Model.Rows.Count; i++)
     {
@@ -25,6 +26,9 @@
             <td>@Model.Rows[i][4]</td>
             <td>@Model.Rows[i][5]</td>
             <td>@Model.Rows[i][6]</td>
+            <td>
+                <a href="@Url.Action("Edit","Users",new {@id=@Model.Rows[i][0] })">Edit</a>
+            </td>
         </tr>
     }
 </table>
