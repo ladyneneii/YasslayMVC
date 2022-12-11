@@ -14,5 +14,6 @@ namespace YasslayMVC.Models
         public string RecipientFN { get; set; }
         public int GiftID { get; set; }
         public string Status { get; set; }
+        public int StatusID { get; set; }
     }
 }

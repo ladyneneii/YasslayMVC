@@ -77,17 +77,28 @@ namespace YasslayMVC.Controllers
             }
             if (dtblUser.Rows.Count == 1)
             {
-                if (string.Compare(dtblUser.Rows[0][5].ToString(), "Seller") == 0)
+                if (string.Compare(dtblUser.Rows[0][6].ToString(), "Active") == 0)
                 {
-                    return RedirectToAction("Index", "Gifts", new { @id = Convert.ToInt32(dtblUser.Rows[0][0].ToString()) });
-                }
-                else if (string.Compare(dtblUser.Rows[0][5].ToString(), "Non-Seller") == 0)
-                {
-                    return RedirectToAction("Index", "Confessions", new { @id = Convert.ToInt32(dtblUser.Rows[0][0].ToString()) });
+                    if (string.Compare(dtblUser.Rows[0][5].ToString(), "Seller") == 0)
+                    {
+                        return RedirectToAction("Index", "Gifts", new { @id = Convert.ToInt32(dtblUser.Rows[0][0].ToString()) });
+                    }
+                    else if (string.Compare(dtblUser.Rows[0][5].ToString(), "Non-Seller") == 0)
+                    {
+                        return RedirectToAction("Index", "Confessions", new { @id = Convert.ToInt32(dtblUser.Rows[0][0].ToString()) });
+                    }
+                    else if (string.Compare(dtblUser.Rows[0][5].ToString(), "Admin") == 0)
+                    {
+                        return RedirectToAction("Index", "Users", new { @id = Convert.ToInt32(dtblUser.Rows[0][0].ToString()) });
+                    }
+                    else
+                    {
+                        return RedirectToAction("Error");
+                    }
                 }
                 else
                 {
-                    return RedirectToAction("Create", "Users", new { @id = Convert.ToInt32(dtblUser.Rows[0][0].ToString()) });
+                    return RedirectToAction("Error");
                 }
             }
             else

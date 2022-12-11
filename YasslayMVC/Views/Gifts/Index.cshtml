@@ -6,31 +6,40 @@
     ViewBag.Title = "Index";
 }
 
-<table class="table table-bordered table-striped">
-    <tr>
-        <th>GiftID</th>
-        <th>GiftName</th>
-        <th>Price</th>
-        <th>QuantityLeft</th>
-        <th>Status</th>
-        <th>UserID</th>
-        <th></th>
-    </tr>
-    @for (var i = 0; i < Model.Rows.Count; i++)
-    {
-        <tr>
-            <td>@Model.Rows[i][0]</td>
-            <td>@Model.Rows[i][1]</td>
-            <td>@Model.Rows[i][2]</td>
-            <td>@Model.Rows[i][3]</td>
-            <td>@Model.Rows[i][4]</td>
-            <td>@Model.Rows[i][5]</td>
-            <td>
-                <a href="@Url.Action("Edit","Gifts",new {@GiftID=@Model.Rows[i][0],@id=@ViewBag.LinkableId })">Edit</a>
-                <a href="@Url.Action("Delete","Gifts",new {@GiftID=@Model.Rows[i][0],@id=@ViewBag.LinkableId })">Delete</a>
-            </td>
-        </tr>
-    }
-</table>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </header>
+    <div class="container">
+        <main role="main" class="pb-3">
 
-<a href="@Url.Action("Create","Gifts",new {@id=@ViewBag.LinkableId })">Add a Gift</a>
+    <table class="table table-bordered table-striped">
+        <tr>
+            <th>GiftID</th>
+            <th>GiftName</th>
+            <th>Price</th>
+            <th>QuantityLeft</th>
+            <th>Status</th>
+            <th>UserID</th>
+            <th></th>
+        </tr>
+        @for (var i = 0; i < Model.Rows.Count; i++)
+        {
+            <tr>
+                <td>@Model.Rows[i][0]</td>
+                <td>@Model.Rows[i][1]</td>
+                <td>@Model.Rows[i][2]</td>
+                <td>@Model.Rows[i][3]</td>
+                <td>@Model.Rows[i][4]</td>
+                <td>@Model.Rows[i][5]</td>
+                <td>
+                    <a href="@Url.Action("Edit","Gifts",new {@GiftID=@Model.Rows[i][0],@id=@ViewBag.LinkableId })">Edit</a>
+                    <a href="@Url.Action("Delete","Gifts",new {@GiftID=@Model.Rows[i][0],@id=@ViewBag.LinkableId })">Delete</a>
+                </td>
+            </tr>
+        }
+    </table>
+
+    <a href="@Url.Action("Create","Gifts",new {@id=@ViewBag.LinkableId })">Add a Gift</a>
+    <a href="@Url.Action("Index_Seller","Confessions",new {@id=@ViewBag.LinkableId })">Go to Pending Confessions</a>
