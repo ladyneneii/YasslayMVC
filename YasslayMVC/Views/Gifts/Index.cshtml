@@ -26,8 +26,8 @@
             <td>@Model.Rows[i][4]</td>
             <td>@Model.Rows[i][5]</td>
             <td>
-                <a href="@Url.Action("Edit","Gifts",new {@GiftID=@Model.Rows[i][0] })">Edit</a>
-                <a href="@Url.Action("Delete","Gifts",new {@GiftID=@Model.Rows[i][0] })">Delete</a>
+                <a href="@Url.Action("Edit","Gifts",new {@GiftID=@Model.Rows[i][0],@id=@ViewBag.LinkableId })">Edit</a>
+                <a href="@Url.Action("Delete","Gifts",new {@GiftID=@Model.Rows[i][0],@id=@ViewBag.LinkableId })">Delete</a>
             </td>
         </tr>
     }

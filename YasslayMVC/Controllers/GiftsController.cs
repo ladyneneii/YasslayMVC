@@ -55,8 +55,9 @@ namespace YasslayMVC.Controllers
         }
 
         // GET: GiftsController/Edit/5
-        public ActionResult Edit(int GiftID)
+        public ActionResult Edit(int GiftID, int id)
         {
+            ViewBag.LinkableId = id;
             GiftsModel giftsModel = new GiftsModel();
             DataTable dtblGift = new DataTable();
             using (SqlConnection sqlCon = new SqlConnection(connectionString))
@@ -74,7 +75,7 @@ namespace YasslayMVC.Controllers
                 giftsModel.Price = Convert.ToInt32(dtblGift.Rows[0][2].ToString());
                 giftsModel.QuantityLeft = Convert.ToInt32(dtblGift.Rows[0][3].ToString());
                 giftsModel.Status = dtblGift.Rows[0][4].ToString();
-                giftsModel.UserID = Convert.ToInt32(dtblGift.Rows[0][5].ToString());
+                giftsModel.UserID = id;
                 return View(giftsModel);
             }
             else
@@ -101,28 +102,21 @@ namespace YasslayMVC.Controllers
                 sqlCmd.Parameters.AddWithValue("@UserID", giftsModel.UserID);
                 sqlCmd.ExecuteNonQuery();
             }
-            return RedirectToAction("Index");
+            return RedirectToAction("Index", "Gifts", new { @id = giftsModel.UserID });
         }
 
         // GET: GiftsController/Delete/5
-        public ActionResult Delete(int id)
+        public ActionResult Delete(int GiftID, int id)
         {
-            return View();
-        }
-
-        // POST: GiftsController/Delete/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id, IFormCollection collection)
-        {
-            try
+            using (SqlConnection sqlCon = new SqlConnection(connectionString))
             {
-                return RedirectToAction(nameof(Index));
+                sqlCon.Open();
+                string query = "DELETE FROM GiftsTable WHERE GiftID = @GiftID";
+                SqlCommand sqlCmd = new SqlCommand(query, sqlCon);
+                sqlCmd.Parameters.AddWithValue("@GiftID", GiftID);
+                sqlCmd.ExecuteNonQuery();
             }
-            catch
-            {
-                return View();
-            }
+            return RedirectToAction("Index", "Gifts", new { @id = id });
         }
     }
 }
