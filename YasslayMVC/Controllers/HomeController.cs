@@ -76,7 +76,7 @@ namespace YasslayMVC.Controllers
             }
             if (dtblUser.Rows.Count == 1)
             {
-                return RedirectToAction("Index");
+                return RedirectToAction("Index", "Users", new { area = "" });
             }
             else
             {
