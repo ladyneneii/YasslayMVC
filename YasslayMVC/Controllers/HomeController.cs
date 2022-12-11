@@ -2,6 +2,7 @@
 using System.Data;
 using System.Data.SqlClient;
 using System.Diagnostics;
+using System.Reflection;
 using YasslayMVC.Models;
 
 namespace YasslayMVC.Controllers
@@ -76,7 +77,13 @@ namespace YasslayMVC.Controllers
             }
             if (dtblUser.Rows.Count == 1)
             {
-                return RedirectToAction("Index", "Users", new { area = "" });
+                if (string.Compare(dtblUser.Rows[0][5].ToString(), "Seller") == 0)
+                {
+                    return RedirectToAction("Index", "Gifts", new { @id = Convert.ToInt32(dtblUser.Rows[0][0].ToString()) });
+                } else
+                {
+                    return RedirectToAction("Create", "Users", new { @id = Convert.ToInt32(dtblUser.Rows[0][0].ToString()) });
+                }
             }
             else
             {
