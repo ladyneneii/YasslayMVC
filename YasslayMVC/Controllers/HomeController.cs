@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using System.Data;
 using System.Data.SqlClient;
 using System.Diagnostics;
 using YasslayMVC.Models;
@@ -59,6 +60,29 @@ namespace YasslayMVC.Controllers
         public ActionResult Login()
         {
             return View(new UsersModel());
+        }
+
+        public ActionResult Login(UsersModel usersModel)
+        {
+            DataTable dtblUser = new DataTable();
+            using (SqlConnection sqlCon = new SqlConnection(connectionString))
+            {
+                sqlCon.Open();
+                string query = "SELECT * FROM UsersTable WHERE Email = @Email AND Password = @Password";
+                SqlDataAdapter sqlDa = new SqlDataAdapter(query, sqlCon);
+                sqlDa.SelectCommand.Parameters.AddWithValue("@Email", usersModel.Email);
+                sqlDa.SelectCommand.Parameters.AddWithValue("@Password", usersModel.Password);
+                sqlDa.Fill(dtblUser);
+            }
+            if (dtblUser.Rows.Count == 1)
+            {
+                return RedirectToAction("Index");
+            }
+            else
+            {
+                return RedirectToAction("Error");
+            }
+                
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
