@@ -156,6 +156,37 @@ namespace YasslayMVC.Controllers
             return RedirectToAction("Login", "Home", new { area = "" });
         }
 
+        public ActionResult Delete_Settings(UsersModel usersModel)
+        {
+            DataTable dtblUser = new DataTable();
+            using (SqlConnection sqlCon = new SqlConnection(connectionString))
+            {
+                sqlCon.Open();
+                string query = "SELECT * FROM UsersTable WHERE Email = @Email AND Password = @Password";
+                SqlDataAdapter sqlDa = new SqlDataAdapter(query, sqlCon);
+                sqlDa.SelectCommand.Parameters.AddWithValue("@Email", usersModel.Email);
+                sqlDa.SelectCommand.Parameters.AddWithValue("@Password", usersModel.Password);
+                sqlDa.Fill(dtblUser);
+            }
+            if (dtblUser.Rows.Count == 1)
+            {
+                using (SqlConnection sqlCon = new SqlConnection(connectionString))
+                {
+                    sqlCon.Open();
+                    string query = "DELETE FROM UsersTable WHERE Email = @Email AND Password = @Password";
+                    SqlDataAdapter sqlDa = new SqlDataAdapter(query, sqlCon);
+                    sqlDa.SelectCommand.Parameters.AddWithValue("@Email", usersModel.Email);
+                    sqlDa.SelectCommand.Parameters.AddWithValue("@Password", usersModel.Password);
+                    sqlDa.Fill(dtblUser);
+                }
+                return RedirectToAction("Login", "Home", new { area = "" });
+            }
+            else
+            {
+                return RedirectToAction("Settings", "Home", new { area = "" });
+            }
+        }
+
 
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
