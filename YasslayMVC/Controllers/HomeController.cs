@@ -80,7 +80,12 @@ namespace YasslayMVC.Controllers
                 if (string.Compare(dtblUser.Rows[0][5].ToString(), "Seller") == 0)
                 {
                     return RedirectToAction("Index", "Gifts", new { @id = Convert.ToInt32(dtblUser.Rows[0][0].ToString()) });
-                } else
+                }
+                else if (string.Compare(dtblUser.Rows[0][5].ToString(), "Non-Seller") == 0)
+                {
+                    return RedirectToAction("Index", "Confessions", new { @id = Convert.ToInt32(dtblUser.Rows[0][0].ToString()) });
+                }
+                else
                 {
                     return RedirectToAction("Create", "Users", new { @id = Convert.ToInt32(dtblUser.Rows[0][0].ToString()) });
                 }
