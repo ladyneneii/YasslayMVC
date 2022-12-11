@@ -175,9 +175,30 @@ namespace YasslayMVC.Controllers
 
 
         // GET: ConfessionsController/Delete/5
-        public ActionResult Delete(int id)
+        public ActionResult Delete(int ConfessID, int id)
         {
-            return View();
+            using (SqlConnection sqlCon = new SqlConnection(connectionString))
+            {
+                sqlCon.Open();
+                string query = "DELETE FROM ConfessionsTable WHERE ConfessID = @ConfessID";
+                SqlCommand sqlCmd = new SqlCommand(query, sqlCon);
+                sqlCmd.Parameters.AddWithValue("@ConfessID", ConfessID);
+                sqlCmd.ExecuteNonQuery();
+            }
+            return RedirectToAction("Index", "Confessions", new { @id = id });
+        }
+
+        public ActionResult Delete_Seller(int ConfessID, int id)
+        {
+            using (SqlConnection sqlCon = new SqlConnection(connectionString))
+            {
+                sqlCon.Open();
+                string query = "DELETE FROM ConfessionsTable WHERE ConfessID = @ConfessID";
+                SqlCommand sqlCmd = new SqlCommand(query, sqlCon);
+                sqlCmd.Parameters.AddWithValue("@ConfessID", ConfessID);
+                sqlCmd.ExecuteNonQuery();
+            }
+            return RedirectToAction("Index_Seller", "Confessions", new { @id = id });
         }
 
         // POST: ConfessionsController/Delete/5

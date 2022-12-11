@@ -39,7 +39,7 @@
                     <td>@Model.Rows[i][7]</td>
                     <td>
                         <a href="@Url.Action("Edit_Seller","Confessions",new {@ConfessID=@Model.Rows[i][0],@id=@ViewBag.LinkableId })">Edit</a>
-                        <a href="@Url.Action("Delete","Confessions",new {@ConfessID=@Model.Rows[i][0],@id=@ViewBag.LinkableId })">Delete</a>
+                        <a href="@Url.Action("Delete_Seller","Confessions",new {@ConfessID=@Model.Rows[i][0],@id=@ViewBag.LinkableId })">Delete</a>
                     </td>
                 </tr>
             }

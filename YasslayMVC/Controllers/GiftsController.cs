@@ -24,6 +24,20 @@ namespace YasslayMVC.Controllers
             return View(dtblGifts);
         }
 
+        public ActionResult Index_Sender(int id)
+        {
+            DataTable dtblGifts = new DataTable();
+            using (SqlConnection sqlCon = new SqlConnection(connectionString))
+            {
+                sqlCon.Open();
+                SqlDataAdapter sqlDa = new SqlDataAdapter("SELECT * FROM GiftsTable", sqlCon);
+                sqlDa.Fill(dtblGifts);
+            }
+            ViewBag.LinkableId = id;
+
+            return View(dtblGifts);
+        }
+
         [HttpGet]
         // GET: GiftsController/Create
         public ActionResult Create(int id)
