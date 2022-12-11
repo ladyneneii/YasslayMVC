@@ -27,19 +27,22 @@
         </tr>
         @for (var i = 0; i < Model.Rows.Count; i++)
         {
-            <tr>
-                <td>@Model.Rows[i][0]</td>
-                <td>@Model.Rows[i][1]</td>
-                <td>@Model.Rows[i][2]</td>
-                <td>@Model.Rows[i][3]</td>
-                <td>@Model.Rows[i][4]</td>
-                <td>@Model.Rows[i][5]</td>
-                <td>@Model.Rows[i][6]</td>
-                <td>
-                    <a href="@Url.Action("Edit","Confessions",new {@ConfessID=@Model.Rows[i][0],@id=@ViewBag.LinkableId })">Edit</a>
-                    <a href="@Url.Action("Delete","Confessions",new {@ConfessID=@Model.Rows[i][0],@id=@ViewBag.LinkableId })">Delete</a>
-                </td>
-            </tr>
+            if (string.Compare(@Model.Rows[i][7].ToString(), "Accepted") == 0)
+            {
+                <tr>
+                    <td>@Model.Rows[i][0]</td>
+                    <td>@Model.Rows[i][1]</td>
+                    <td>@Model.Rows[i][2]</td>
+                    <td>@Model.Rows[i][3]</td>
+                    <td>@Model.Rows[i][4]</td>
+                    <td>@Model.Rows[i][5]</td>
+                    <td>@Model.Rows[i][6]</td>
+                    <td>
+                        <a href="@Url.Action("Edit","Confessions",new {@ConfessID=@Model.Rows[i][0],@id=@ViewBag.LinkableId })">Edit</a>
+                        <a href="@Url.Action("Delete","Confessions",new {@ConfessID=@Model.Rows[i][0],@id=@ViewBag.LinkableId })">Delete</a>
+                    </td>
+                </tr>
+            }
         }
     </table>
 

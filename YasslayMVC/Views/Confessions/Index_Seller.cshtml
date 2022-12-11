@@ -23,6 +23,7 @@
                 <th>Recipient's Last Name</th>
                 <th>Recipient's First Name</th>
                 <th>Gift</th>
+                <th>Status</th>
                 <th></th>
             </tr>
             @for (var i = 0; i < Model.Rows.Count; i++)
@@ -35,8 +36,9 @@
                     <td>@Model.Rows[i][4]</td>
                     <td>@Model.Rows[i][5]</td>
                     <td>@Model.Rows[i][6]</td>
+                    <td>@Model.Rows[i][7]</td>
                     <td>
-                        <a href="@Url.Action("Edit","Confessions",new {@ConfessID=@Model.Rows[i][0],@id=@ViewBag.LinkableId })">Edit</a>
+                        <a href="@Url.Action("Edit_Seller","Confessions",new {@ConfessID=@Model.Rows[i][0],@id=@ViewBag.LinkableId })">Edit</a>
                         <a href="@Url.Action("Delete","Confessions",new {@ConfessID=@Model.Rows[i][0],@id=@ViewBag.LinkableId })">Delete</a>
                     </td>
                 </tr>

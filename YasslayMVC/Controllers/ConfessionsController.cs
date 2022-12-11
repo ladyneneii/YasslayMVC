@@ -56,7 +56,7 @@ namespace YasslayMVC.Controllers
             using (SqlConnection sqlCon = new SqlConnection(connectionString))
             {
                 sqlCon.Open();
-                string query = "INSERT INTO ConfessionsTable VALUES(@UserID,@Relationship,@Message,@RecipientLN,@RecipientFN,@GiftID,@Status)";
+                string query = "INSERT INTO ConfessionsTable VALUES(@UserID,@Relationship,@Message,@RecipientLN,@RecipientFN,@GiftID,@Status,NULL)";
                 SqlDataAdapter sqlDa = new SqlDataAdapter(query, sqlCon);
                 sqlDa.SelectCommand.Parameters.AddWithValue("@UserID", confessionsModel.UserID);
                 sqlDa.SelectCommand.Parameters.AddWithValue("@Relationship", confessionsModel.Relationship);
@@ -119,10 +119,58 @@ namespace YasslayMVC.Controllers
                 sqlCmd.Parameters.AddWithValue("@RecipientLN", confessionsModel.RecipientLN);
                 sqlCmd.Parameters.AddWithValue("@RecipientFN", confessionsModel.RecipientFN);
                 sqlCmd.Parameters.AddWithValue("@GiftID", confessionsModel.GiftID);
-                sqlCmd.Parameters.AddWithValue("@Status", confessionsModel.Status);
+                sqlCmd.Parameters.AddWithValue("@Status", "Pending");
                 sqlCmd.ExecuteNonQuery();
             }
             return RedirectToAction("Index", "Confessions", new { @id = confessionsModel.UserID });
+        }
+
+        public ActionResult Edit_Seller(int ConfessID, int id)
+        {
+            ViewBag.LinkableId = id;
+            ConfessionsModel confessionsModel = new ConfessionsModel();
+            DataTable dtblConfess = new DataTable();
+            using (SqlConnection sqlCon = new SqlConnection(connectionString))
+            {
+                sqlCon.Open();
+                string query = "SELECT * FROM ConfessionsTable WHERE ConfessID = @ConfessID";
+                SqlDataAdapter sqlDa = new SqlDataAdapter(query, sqlCon);
+                sqlDa.SelectCommand.Parameters.AddWithValue("@ConfessID", ConfessID);
+                sqlDa.Fill(dtblConfess);
+            }
+            if (dtblConfess.Rows.Count == 1)
+            {
+                confessionsModel.ConfessID = Convert.ToInt32(dtblConfess.Rows[0][0].ToString());
+                confessionsModel.UserID = Convert.ToInt32(dtblConfess.Rows[0][1].ToString());
+                confessionsModel.Relationship = dtblConfess.Rows[0][2].ToString();
+                confessionsModel.Message = dtblConfess.Rows[0][3].ToString();
+                confessionsModel.RecipientLN = dtblConfess.Rows[0][4].ToString();
+                confessionsModel.RecipientFN = dtblConfess.Rows[0][5].ToString();
+                confessionsModel.GiftID = Convert.ToInt32(dtblConfess.Rows[0][6].ToString());
+                confessionsModel.Status = dtblConfess.Rows[0][7].ToString();
+                return View(confessionsModel);
+            }
+            else
+            {
+                return RedirectToAction("Index");
+            }
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Edit_Seller(ConfessionsModel confessionsModel)
+        {
+            using (SqlConnection sqlCon = new SqlConnection(connectionString))
+            {
+                sqlCon.Open();
+                string query = "UPDATE ConfessionsTable SET Status = @Status, StatusID = @StatusID WHERE ConfessID = @ConfessID";
+                SqlCommand sqlCmd = new SqlCommand(query, sqlCon);
+                sqlCmd.Parameters.AddWithValue("@ConfessID", confessionsModel.ConfessID);
+                sqlCmd.Parameters.AddWithValue("@Status", confessionsModel.Status);
+                sqlCmd.Parameters.AddWithValue("@StatusID", confessionsModel.StatusID);
+                sqlCmd.ExecuteNonQuery();
+            }
+            return RedirectToAction("Index_Seller", "Confessions", new { @id = confessionsModel.StatusID });
         }
 
 
