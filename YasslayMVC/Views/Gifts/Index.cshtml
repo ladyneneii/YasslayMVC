@@ -13,6 +13,7 @@
         <th>Price</th>
         <th>QuantityLeft</th>
         <th>Status</th>
+        <th>UserID</th>
         <th></th>
     </tr>
     @for (var i = 0; i < Model.Rows.Count; i++)
@@ -23,9 +24,10 @@
             <td>@Model.Rows[i][2]</td>
             <td>@Model.Rows[i][3]</td>
             <td>@Model.Rows[i][4]</td>
+            <td>@Model.Rows[i][5]</td>
             <td>
-                <a href="@Url.Action("Edit","Gifts",new {@id=@Model.Rows[i][0] })">Edit</a>
-                <a href="@Url.Action("Delete","Gifts",new {@id=@Model.Rows[i][0] })">Delete</a>
+                <a href="@Url.Action("Edit","Gifts",new {@GiftID=@Model.Rows[i][0] })">Edit</a>
+                <a href="@Url.Action("Delete","Gifts",new {@GiftID=@Model.Rows[i][0] })">Delete</a>
             </td>
         </tr>
     }

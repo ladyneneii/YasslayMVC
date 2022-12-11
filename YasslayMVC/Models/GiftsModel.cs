@@ -11,5 +11,6 @@ namespace YasslayMVC.Models
         [DisplayName("Quantity Left")]
         public int QuantityLeft { get; set; }
         public string Status { get; set; }
+        public int UserID { get; set; }
     }
 }

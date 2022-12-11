@@ -38,24 +38,49 @@ namespace YasslayMVC.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create(GiftsModel giftsModel)
         {
+            DataTable dtblGift = new DataTable();
             using (SqlConnection sqlCon = new SqlConnection(connectionString))
             {
                 sqlCon.Open();
-                string query = "INSERT INTO GiftsTable VALUES(@GiftName,@Price,@QuantityLeft,@Status)";
-                SqlCommand sqlCmd = new SqlCommand(query, sqlCon);
-                sqlCmd.Parameters.AddWithValue("@GiftName", giftsModel.GiftName);
-                sqlCmd.Parameters.AddWithValue("@Price", giftsModel.Price);
-                sqlCmd.Parameters.AddWithValue("@QuantityLeft", giftsModel.QuantityLeft);
-                sqlCmd.Parameters.AddWithValue("@Status", giftsModel.Status);
-                sqlCmd.ExecuteNonQuery();
+                string query = "INSERT INTO GiftsTable VALUES(@GiftName,@Price,@QuantityLeft,@Status,@UserID)";
+                SqlDataAdapter sqlDa = new SqlDataAdapter(query, sqlCon);
+                sqlDa.SelectCommand.Parameters.AddWithValue("@GiftName", giftsModel.GiftName);
+                sqlDa.SelectCommand.Parameters.AddWithValue("@Price", giftsModel.Price);
+                sqlDa.SelectCommand.Parameters.AddWithValue("@QuantityLeft", giftsModel.QuantityLeft);
+                sqlDa.SelectCommand.Parameters.AddWithValue("@Status", giftsModel.Status);
+                sqlDa.SelectCommand.Parameters.AddWithValue("@UserID", giftsModel.UserID);
+                sqlDa.Fill(dtblGift);
             }
-            return RedirectToAction("Index", "Gifts", new { @id = ViewBag.LinkableId });
+            return RedirectToAction("Index", "Gifts", new { @id = giftsModel.UserID });
         }
 
         // GET: GiftsController/Edit/5
-        public ActionResult Edit(int id)
+        public ActionResult Edit(int GiftID)
         {
-            return View();
+            GiftsModel giftsModel = new GiftsModel();
+            DataTable dtblGift = new DataTable();
+            using (SqlConnection sqlCon = new SqlConnection(connectionString))
+            {
+                sqlCon.Open();
+                string query = "SELECT * FROM GiftsTable WHERE GiftID = @GiftID";
+                SqlDataAdapter sqlDa = new SqlDataAdapter(query, sqlCon);
+                sqlDa.SelectCommand.Parameters.AddWithValue("@GiftID", GiftID);
+                sqlDa.Fill(dtblGift);
+            }
+            if (dtblGift.Rows.Count == 1)
+            {
+                giftsModel.GiftID = Convert.ToInt32(dtblGift.Rows[0][0].ToString());
+                giftsModel.GiftName = dtblGift.Rows[0][1].ToString();
+                giftsModel.Price = Convert.ToInt32(dtblGift.Rows[0][2].ToString());
+                giftsModel.QuantityLeft = Convert.ToInt32(dtblGift.Rows[0][3].ToString());
+                giftsModel.Status = dtblGift.Rows[0][4].ToString();
+                giftsModel.UserID = Convert.ToInt32(dtblGift.Rows[0][5].ToString());
+                return View(giftsModel);
+            }
+            else
+            {
+                return RedirectToAction("Index");
+            }
         }
 
         // POST: GiftsController/Edit/5
