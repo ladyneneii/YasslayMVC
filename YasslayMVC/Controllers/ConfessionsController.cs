@@ -56,7 +56,7 @@ namespace YasslayMVC.Controllers
             using (SqlConnection sqlCon = new SqlConnection(connectionString))
             {
                 sqlCon.Open();
-                string query = "INSERT INTO ConfessionsTable VALUES(@UserID,@Relationship,@Message,@RecipientLN,@RecipientFN,@GiftID,@Status,@StatusID)";
+                string query = "INSERT INTO ConfessionsTable VALUES(@UserID,@Relationship,@Message,@RecipientLN,@RecipientFN,@GiftID,@Status)";
                 SqlDataAdapter sqlDa = new SqlDataAdapter(query, sqlCon);
                 sqlDa.SelectCommand.Parameters.AddWithValue("@UserID", confessionsModel.UserID);
                 sqlDa.SelectCommand.Parameters.AddWithValue("@Relationship", confessionsModel.Relationship);
@@ -65,7 +65,6 @@ namespace YasslayMVC.Controllers
                 sqlDa.SelectCommand.Parameters.AddWithValue("@RecipientFN", confessionsModel.RecipientFN);
                 sqlDa.SelectCommand.Parameters.AddWithValue("@GiftID", confessionsModel.GiftID);
                 sqlDa.SelectCommand.Parameters.AddWithValue("@Status", "Pending");
-                sqlDa.SelectCommand.Parameters.AddWithValue("@StatusID", 0);
                 sqlDa.Fill(dtblConfess);
             }
             return RedirectToAction("Index", "Confessions", new { @id = confessionsModel.UserID });
@@ -94,6 +93,7 @@ namespace YasslayMVC.Controllers
                 confessionsModel.RecipientLN = dtblConfess.Rows[0][4].ToString();
                 confessionsModel.RecipientFN = dtblConfess.Rows[0][5].ToString();
                 confessionsModel.GiftID = Convert.ToInt32(dtblConfess.Rows[0][6].ToString());
+                confessionsModel.Status = dtblConfess.Rows[0][7].ToString();
                 return View(confessionsModel);
             }
             else
@@ -105,17 +105,26 @@ namespace YasslayMVC.Controllers
         // POST: ConfessionsController/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, IFormCollection collection)
+        public ActionResult Edit(ConfessionsModel confessionsModel)
         {
-            try
+            using (SqlConnection sqlCon = new SqlConnection(connectionString))
             {
-                return RedirectToAction(nameof(Index));
+                sqlCon.Open();
+                string query = "UPDATE ConfessionsTable SET UserID = @UserID, Relationship = @Relationship, Message = @Message, RecipientLN = @RecipientLN, RecipientFN = @RecipientFN, GiftID = @GiftID, Status = @Status WHERE ConfessID = @ConfessID";
+                SqlCommand sqlCmd = new SqlCommand(query, sqlCon);
+                sqlCmd.Parameters.AddWithValue("@ConfessID", confessionsModel.ConfessID);
+                sqlCmd.Parameters.AddWithValue("@UserID", confessionsModel.UserID);
+                sqlCmd.Parameters.AddWithValue("@Relationship", confessionsModel.Relationship);
+                sqlCmd.Parameters.AddWithValue("@Message", confessionsModel.Message);
+                sqlCmd.Parameters.AddWithValue("@RecipientLN", confessionsModel.RecipientLN);
+                sqlCmd.Parameters.AddWithValue("@RecipientFN", confessionsModel.RecipientFN);
+                sqlCmd.Parameters.AddWithValue("@GiftID", confessionsModel.GiftID);
+                sqlCmd.Parameters.AddWithValue("@Status", confessionsModel.Status);
+                sqlCmd.ExecuteNonQuery();
             }
-            catch
-            {
-                return View();
-            }
+            return RedirectToAction("Index", "Confessions", new { @id = confessionsModel.UserID });
         }
+
 
         // GET: ConfessionsController/Delete/5
         public ActionResult Delete(int id)
