@@ -86,16 +86,22 @@ namespace YasslayMVC.Controllers
         // POST: GiftsController/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, IFormCollection collection)
+        public ActionResult Edit(GiftsModel giftsModel)
         {
-            try
+            using (SqlConnection sqlCon = new SqlConnection(connectionString))
             {
-                return RedirectToAction(nameof(Index));
+                sqlCon.Open();
+                string query = "UPDATE GiftsTable SET GiftName = @GiftName, Price = @Price, QuantityLeft = @QuantityLeft, Status = @Status, UserID = @UserID WHERE GiftID = @GiftID";
+                SqlCommand sqlCmd = new SqlCommand(query, sqlCon);
+                sqlCmd.Parameters.AddWithValue("@GiftID", giftsModel.GiftID);
+                sqlCmd.Parameters.AddWithValue("@GiftName", giftsModel.GiftName);
+                sqlCmd.Parameters.AddWithValue("@Price", giftsModel.Price);
+                sqlCmd.Parameters.AddWithValue("@QuantityLeft", giftsModel.QuantityLeft);
+                sqlCmd.Parameters.AddWithValue("@Status", giftsModel.Status);
+                sqlCmd.Parameters.AddWithValue("@UserID", giftsModel.UserID);
+                sqlCmd.ExecuteNonQuery();
             }
-            catch
-            {
-                return View();
-            }
+            return RedirectToAction("Index");
         }
 
         // GET: GiftsController/Delete/5
