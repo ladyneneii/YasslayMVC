@@ -13,5 +13,6 @@ namespace YasslayMVC.Models
         [DisplayName("Recipient's First Name")]
         public string RecipientFN { get; set; }
         public int GiftID { get; set; }
+        public string Status { get; set; }
     }
 }

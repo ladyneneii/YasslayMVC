@@ -36,16 +36,24 @@ namespace YasslayMVC.Controllers
         // POST: ConfessionsController/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(IFormCollection collection)
+        public ActionResult Create(ConfessionsModel confessionsModel)
         {
-            try
+            DataTable dtblConfess = new DataTable();
+            using (SqlConnection sqlCon = new SqlConnection(connectionString))
             {
-                return RedirectToAction(nameof(Index));
+                sqlCon.Open();
+                string query = "INSERT INTO ConfessionsTable VALUES(@UserID,@Relationship,@Message,@RecipientLN,@RecipientFN,@GiftID,@Status)";
+                SqlDataAdapter sqlDa = new SqlDataAdapter(query, sqlCon);
+                sqlDa.SelectCommand.Parameters.AddWithValue("@UserID", confessionsModel.UserID);
+                sqlDa.SelectCommand.Parameters.AddWithValue("@Relationship", confessionsModel.Relationship);
+                sqlDa.SelectCommand.Parameters.AddWithValue("@Message", confessionsModel.Message);
+                sqlDa.SelectCommand.Parameters.AddWithValue("@RecipientLN", confessionsModel.RecipientLN);
+                sqlDa.SelectCommand.Parameters.AddWithValue("@RecipientFN", confessionsModel.RecipientFN);
+                sqlDa.SelectCommand.Parameters.AddWithValue("@GiftID", confessionsModel.GiftID);
+                sqlDa.SelectCommand.Parameters.AddWithValue("@Status", "Pending");
+                sqlDa.Fill(dtblConfess);
             }
-            catch
-            {
-                return View();
-            }
+            return RedirectToAction("Index", "Confessions", new { @id = confessionsModel.UserID });
         }
 
         // GET: ConfessionsController/Edit/5
