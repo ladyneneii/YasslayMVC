@@ -38,8 +38,11 @@
                     <td>@Model.Rows[i][5]</td>
                     <td>@Model.Rows[i][6]</td>
                     <td>
-                        <a href="@Url.Action("Edit","Confessions",new {@ConfessID=@Model.Rows[i][0],@id=@ViewBag.LinkableId })">Edit</a>
-                        <a href="@Url.Action("Delete","Confessions",new {@ConfessID=@Model.Rows[i][0],@id=@ViewBag.LinkableId })">Delete</a>
+                            @if (@Model.Rows[i][1] == @ViewBag.LinkableId)
+                        {
+                                <a href="@Url.Action("Edit","Confessions",new {@ConfessID=@Model.Rows[i][0],@id=@ViewBag.LinkableId })">Edit</a>
+                                <a href="@Url.Action("Delete","Confessions",new {@ConfessID=@Model.Rows[i][0],@id=@ViewBag.LinkableId })">Delete</a>
+                        }
                     </td>
                 </tr>
             }
@@ -47,3 +50,4 @@
     </table>
 
     <a href="@Url.Action("Create","Confessions",new {@id=@ViewBag.LinkableId })">Write a Confession!</a>
+    <a href="@Url.Action("Settings","Home",new {@id=@ViewBag.LinkableId })">Account Settings</a>

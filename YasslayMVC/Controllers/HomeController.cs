@@ -104,9 +104,59 @@ namespace YasslayMVC.Controllers
             else
             {
                 return RedirectToAction("Error");
-            }
-                
+            }   
         }
+
+        public ActionResult Settings(int id)
+        {
+            @ViewBag.LinkableId = id;
+            UsersModel usersModel = new UsersModel();
+            DataTable dtblUser = new DataTable();
+            using (SqlConnection sqlCon = new SqlConnection(connectionString))
+            {
+                sqlCon.Open();
+                string query = "SELECT * FROM UsersTable WHERE UserID = @UserID";
+                SqlDataAdapter sqlDa = new SqlDataAdapter(query, sqlCon);
+                sqlDa.SelectCommand.Parameters.AddWithValue("@UserID", id);
+                sqlDa.Fill(dtblUser);
+            }
+            if (dtblUser.Rows.Count == 1)
+            {
+                usersModel.UserID = Convert.ToInt32(dtblUser.Rows[0][0].ToString());
+                usersModel.FirstName = dtblUser.Rows[0][1].ToString();
+                usersModel.LastName = dtblUser.Rows[0][2].ToString();
+                usersModel.Email = dtblUser.Rows[0][3].ToString();
+                usersModel.Password = dtblUser.Rows[0][4].ToString();
+                usersModel.UserType = dtblUser.Rows[0][5].ToString();
+                return View(usersModel);
+            }
+            else
+            {
+                return RedirectToAction("Index");
+            }
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Edit_Settings(UsersModel usersModel)
+        {
+            using (SqlConnection sqlCon = new SqlConnection(connectionString))
+            {
+                sqlCon.Open();
+                string query = "UPDATE UsersTable SET FirstName = @FirstName, LastName = @LastName, Email = @Email, Password = @Password, UserType = @UserType WHERE UserID = @UserID";
+                SqlCommand sqlCmd = new SqlCommand(query, sqlCon);
+                sqlCmd.Parameters.AddWithValue("@UserID", usersModel.UserID);
+                sqlCmd.Parameters.AddWithValue("@FirstName", usersModel.FirstName);
+                sqlCmd.Parameters.AddWithValue("@LastName", usersModel.LastName);
+                sqlCmd.Parameters.AddWithValue("@Email", usersModel.Email);
+                sqlCmd.Parameters.AddWithValue("@Password", usersModel.Password);
+                sqlCmd.Parameters.AddWithValue("@UserType", usersModel.UserType);
+                sqlCmd.ExecuteNonQuery();
+            }
+            return RedirectToAction("Login", "Home", new { area = "" });
+        }
+
+
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
