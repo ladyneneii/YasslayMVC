@@ -48,10 +48,17 @@ namespace YasslayMVC.Controllers
                 sqlCmd.Parameters.AddWithValue("@Email", usersModel.Email);
                 sqlCmd.Parameters.AddWithValue("@Password", usersModel.Password);
                 sqlCmd.Parameters.AddWithValue("@UserType", usersModel.UserType);
-                sqlCmd.Parameters.AddWithValue("@State", usersModel.State);
+                sqlCmd.Parameters.AddWithValue("@State", "Active");
                 sqlCmd.ExecuteNonQuery();
             }
-            return RedirectToAction("Index");
+            return RedirectToAction("Login");
+        }
+
+        [HttpGet]
+        // GET: HomeController/Register
+        public ActionResult Login()
+        {
+            return View(new UsersModel());
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
