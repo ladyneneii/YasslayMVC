@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using System.Data.SqlClient;
 using System.Data;
+using YasslayMVC.Models;
 
 namespace YasslayMVC.Controllers
 {
@@ -11,36 +12,44 @@ namespace YasslayMVC.Controllers
         [HttpGet]
         public ActionResult Index(int id)
         {
-            DataTable dtblUsers = new DataTable();
+            DataTable dtblGifts = new DataTable();
             using (SqlConnection sqlCon = new SqlConnection(connectionString))
             {
                 sqlCon.Open();
                 SqlDataAdapter sqlDa = new SqlDataAdapter("SELECT * FROM GiftsTable", sqlCon);
-                sqlDa.Fill(dtblUsers);
-
+                sqlDa.Fill(dtblGifts);
             }
-            return View(dtblUsers);
+            ViewBag.LinkableId = id;
+
+            return View(dtblGifts);
         }
 
+        [HttpGet]
         // GET: GiftsController/Create
-        public ActionResult Create()
+        public ActionResult Create(int id)
         {
-            return View();
-        }
+            ViewBag.LinkableId = id;
 
+            return View(new GiftsModel());
+        }
+        
         // POST: GiftsController/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(IFormCollection collection)
+        public ActionResult Create(GiftsModel giftsModel)
         {
-            try
+            using (SqlConnection sqlCon = new SqlConnection(connectionString))
             {
-                return RedirectToAction(nameof(Index));
+                sqlCon.Open();
+                string query = "INSERT INTO GiftsTable VALUES(@GiftName,@Price,@QuantityLeft,@Status)";
+                SqlCommand sqlCmd = new SqlCommand(query, sqlCon);
+                sqlCmd.Parameters.AddWithValue("@GiftName", giftsModel.GiftName);
+                sqlCmd.Parameters.AddWithValue("@Price", giftsModel.Price);
+                sqlCmd.Parameters.AddWithValue("@QuantityLeft", giftsModel.QuantityLeft);
+                sqlCmd.Parameters.AddWithValue("@Status", giftsModel.Status);
+                sqlCmd.ExecuteNonQuery();
             }
-            catch
-            {
-                return View();
-            }
+            return RedirectToAction("Index", "Gifts", new { @id = ViewBag.LinkableId });
         }
 
         // GET: GiftsController/Edit/5
