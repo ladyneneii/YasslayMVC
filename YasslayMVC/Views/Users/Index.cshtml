@@ -5,33 +5,41 @@
     ViewBag.Title = "Index";
 }
 
-<table class="table table-bordered table-striped">
-    <tr>
-        <th>UserID</th>
-        <th>FirstName</th>
-        <th>LastName</th>
-        <th>Email</th>
-        <th>Password</th>
-        <th>UserType</th>
-        <th>State</th>
-        <th></th>
-    </tr>
-    @for (var i = 0; i < Model.Rows.Count; i++)
-    {
-        <tr>
-            <td>@Model.Rows[i][0]</td>
-            <td>@Model.Rows[i][1]</td>
-            <td>@Model.Rows[i][2]</td>
-            <td>@Model.Rows[i][3]</td>
-            <td>@Model.Rows[i][4]</td>
-            <td>@Model.Rows[i][5]</td>
-            <td>@Model.Rows[i][6]</td>
-            <td>
-                <a href="@Url.Action("Edit","Users",new {@id=@Model.Rows[i][0] })">Edit</a>
-                <a href="@Url.Action("Delete","Users",new {@id=@Model.Rows[i][0] })">Delete</a>
-            </td>
-        </tr>
-    }
-</table>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </header>
+<div class="container">
+    <main role="main" class="pb-3">
 
-<a href="@Url.Action("Create","Users")">Add User</a>
+    <table class="table table-bordered table-striped">
+        <tr>
+            <th>UserID</th>
+            <th>FirstName</th>
+            <th>LastName</th>
+            <th>Email</th>
+            <th>Password</th>
+            <th>UserType</th>
+            <th>State</th>
+            <th></th>
+        </tr>
+        @for (var i = 0; i < Model.Rows.Count; i++)
+        {
+            <tr>
+                <td>@Model.Rows[i][0]</td>
+                <td>@Model.Rows[i][1]</td>
+                <td>@Model.Rows[i][2]</td>
+                <td>@Model.Rows[i][3]</td>
+                <td>@Model.Rows[i][4]</td>
+                <td>@Model.Rows[i][5]</td>
+                <td>@Model.Rows[i][6]</td>
+                <td>
+                    <a href="@Url.Action("Edit","Users",new {@id=@Model.Rows[i][0] })">Edit</a>
+                    <a href="@Url.Action("Delete","Users",new {@id=@Model.Rows[i][0] })">Delete</a>
+                </td>
+            </tr>
+        }
+    </table>
+
+    <a href="@Url.Action("Create","Users")">Add User</a>

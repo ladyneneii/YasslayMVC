@@ -1,0 +1,67 @@
+﻿@model YasslayMVC.Models.ConfessionsModel
+
+@{
+    ViewData["Title"] = "Edit";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </header>
+<div class="container">
+    <main role="main" class="pb-3">
+
+<h1>Edit</h1>
+
+<h4>Confessions</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            @Html.HiddenFor(model => model.ConfessID)
+            <div class="form-group" hidden="hidden">
+                <label asp-for="UserID" class="control-label"></label>
+                <input asp-for="UserID" class="form-control" />
+                <span asp-validation-for="UserID" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="RecipientLN" class="control-label"></label>
+                <input asp-for="RecipientLN" class="form-control" />
+                <span asp-validation-for="RecipientLN" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="RecipientFN" class="control-label"></label>
+                <input asp-for="RecipientFN" class="form-control" />
+                <span asp-validation-for="RecipientFN" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Relationship" class="control-label"></label>
+                <input asp-for="Relationship" class="form-control" />
+                <span asp-validation-for="Relationship" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Message" class="control-label"></label>
+                <textarea asp-for="Message" class="form-control" rows="10"></textarea>
+                <span asp-validation-for="Message" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="GiftID" class="control-label"></label>
+                <input asp-for="GiftID" class="form-control" />
+                <span asp-validation-for="GiftID" class="text-danger"></span>
+            </div>
+            @Html.HiddenFor(model => model.Status)
+            @Html.HiddenFor(model => model.StatusID)
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a href="@Url.Action("Index","Confessions",new {@id=@ViewBag.LinkableId })">Back to List</a>
+</div>
+
