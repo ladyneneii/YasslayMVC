@@ -16,6 +16,26 @@ build_property.GenerateRazorMetadataSourceChecksumAttributes =
 build_property.MSBuildProjectDirectory = C:\Users\Joel\Desktop\YasslayMVC\YasslayMVC
 build_property._RazorSourceGeneratorDebug = 
 
+[C:/Users/Joel/Desktop/YasslayMVC/YasslayMVC/Views/Confessions/Create.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ29uZmVzc2lvbnNcQ3JlYXRlLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Joel/Desktop/YasslayMVC/YasslayMVC/Views/Confessions/Edit.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ29uZmVzc2lvbnNcRWRpdC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Joel/Desktop/YasslayMVC/YasslayMVC/Views/Confessions/Edit_Seller.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ29uZmVzc2lvbnNcRWRpdF9TZWxsZXIuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Joel/Desktop/YasslayMVC/YasslayMVC/Views/Confessions/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ29uZmVzc2lvbnNcSW5kZXguY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Joel/Desktop/YasslayMVC/YasslayMVC/Views/Confessions/Index_Seller.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ29uZmVzc2lvbnNcSW5kZXhfU2VsbGVyLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
 [C:/Users/Joel/Desktop/YasslayMVC/YasslayMVC/Views/Gifts/Create.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcR2lmdHNcQ3JlYXRlLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
@@ -26,6 +46,10 @@ build_metadata.AdditionalFiles.CssScope =
 
 [C:/Users/Joel/Desktop/YasslayMVC/YasslayMVC/Views/Gifts/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcR2lmdHNcSW5kZXguY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Joel/Desktop/YasslayMVC/YasslayMVC/Views/Gifts/Index_Sender.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcR2lmdHNcSW5kZXhfU2VuZGVyLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
 [C:/Users/Joel/Desktop/YasslayMVC/YasslayMVC/Views/Home/Index.cshtml]
@@ -42,6 +66,10 @@ build_metadata.AdditionalFiles.CssScope =
 
 [C:/Users/Joel/Desktop/YasslayMVC/YasslayMVC/Views/Home/Register.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxSZWdpc3Rlci5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Joel/Desktop/YasslayMVC/YasslayMVC/Views/Home/Settings.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxTZXR0aW5ncy5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
 [C:/Users/Joel/Desktop/YasslayMVC/YasslayMVC/Views/Shared/Error.cshtml]
