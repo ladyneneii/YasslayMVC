@@ -1,15 +1,68 @@
+:root {
+    --violet: #822594;
+    --dark-violet: #2a015f;
+    --white: #fff;
+    --pink: #ff008d;
+}
+
 html {
   font-size: 14px;
 }
 
 body {
-    background-color: violet;
+    background-color: var(--violet);
+    color: var(--white);
 }
 
-@media (min-width: 768px) {
-  html {
-    font-size: 16px;
-  }
+a {
+    color: var(--white);
+    margin-top: 25px;
+    margin-bottom: 25px;
+    margin-left: 0;
+    margin-right: 25px;
+}
+
+a:hover {
+    color: var(--pink);
+}
+
+nav {
+    background-color: var(--dark-violet);
+}
+
+.nav-link, .navbar-brand, .text-muted, .text-muted .container {
+    color: var(--white);
+    text-decoration: none;
+}
+
+.nav-link:hover, .navbar-brand:hover, .text-muted:hover {
+    color: var(--pink);
+}
+
+.display-4 {
+    color: var(--white);
+}
+
+.btn-primary {
+    margin-top: 25px;
+    margin-bottom: 25px;
+    background-color: var(--dark-violet);
+    border: 0;
+}
+
+.table-bordered {
+    color: var(--white);
+    border: var(--white);
+}
+
+.table-bordered th {
+    color: var(--white);
+}
+
+    @media (min-width: 768px) {
+        html {
+        font-size: 16px;
+    }
 }
 
 html {
