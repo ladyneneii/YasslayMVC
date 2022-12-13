@@ -170,9 +170,22 @@ namespace YasslayMVC.Controllers
             }
             if (dtblUser.Rows.Count == 1)
             {
+                if (string.Compare(dtblUser.Rows[0][5].ToString(), "Seller") == 0)
+                {
+                    using (SqlConnection sqlCon = new SqlConnection(connectionString))
+                    {
+                        sqlCon.Open();
+
+                        string query2 = "UPDATE ConfessionsTable SET StatusID = NULL WHERE StatusID = @UserID";
+                        SqlDataAdapter sqlDa2 = new SqlDataAdapter(query2, sqlCon);
+                        sqlDa2.SelectCommand.Parameters.AddWithValue("@UserID", dtblUser.Rows[0][0]);
+                        sqlDa2.Fill(dtblUser);
+                    }
+                }
                 using (SqlConnection sqlCon = new SqlConnection(connectionString))
                 {
                     sqlCon.Open();
+                    
                     string query = "DELETE FROM UsersTable WHERE Email = @Email AND Password = @Password";
                     SqlDataAdapter sqlDa = new SqlDataAdapter(query, sqlCon);
                     sqlDa.SelectCommand.Parameters.AddWithValue("@Email", usersModel.Email);
