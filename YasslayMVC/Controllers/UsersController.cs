@@ -108,16 +108,51 @@ namespace YasslayMVC.Controllers
         // GET: UsersController/Delete/5
         public ActionResult Delete(int id)
         {
+            UsersModel usersModel = new UsersModel();
+            DataTable dtblUser = new DataTable();
             using (SqlConnection sqlCon = new SqlConnection(connectionString))
             {
                 sqlCon.Open();
-                string query = "DELETE FROM UsersTable WHERE UserID = @UserID";
-                SqlCommand sqlCmd = new SqlCommand(query, sqlCon);
-                sqlCmd.Parameters.AddWithValue("@UserID", id);
-                sqlCmd.ExecuteNonQuery();
-            }
 
-            return RedirectToAction("Index");
+                string query2 = "SELECT * FROM UsersTable WHERE UserID = @UserID";
+                SqlDataAdapter sqlDa = new SqlDataAdapter(query2, sqlCon);
+                sqlDa.SelectCommand.Parameters.AddWithValue("@UserID", id);
+                sqlDa.Fill(dtblUser);
+            }
+            if (dtblUser.Rows.Count == 1)
+            {
+                if (string.Compare(dtblUser.Rows[0][5].ToString(), "Seller") == 0)
+                {
+                    using (SqlConnection sqlCon = new SqlConnection(connectionString))
+                    {
+                        sqlCon.Open();
+
+                        string query2 = "UPDATE ConfessionsTable SET StatusID = NULL WHERE StatusID = @UserID";
+                        SqlDataAdapter sqlDa2 = new SqlDataAdapter(query2, sqlCon);
+                        sqlDa2.SelectCommand.Parameters.AddWithValue("@UserID", dtblUser.Rows[0][0]);
+                        sqlDa2.Fill(dtblUser);
+                    }
+                }
+
+                using (SqlConnection sqlCon = new SqlConnection(connectionString))
+                {
+                    sqlCon.Open();
+
+                    string query = "DELETE FROM UsersTable WHERE UserID = @UserID";
+                    SqlCommand sqlCmd = new SqlCommand(query, sqlCon);
+                    sqlCmd.Parameters.AddWithValue("@UserID", id);
+                    sqlCmd.ExecuteNonQuery();
+                }
+
+                return RedirectToAction("Index");
+            }
+            else
+            {
+                return RedirectToAction("Privacy");
+            }
+            
+
+            
         }
     }
 }
